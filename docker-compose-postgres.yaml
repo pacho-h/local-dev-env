@@ -1,0 +1,27 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    platform: linux/amd64
+    container_name: postgres
+    volumes:
+      - ~/.motor-on-premise-data/postgres:/var/lib/postgres/
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - ${DB_PORT}:5432
+
+  postgers-adminer:
+    image: adminer
+    platform: linux/amd64
+    container_name: postgres-adminer
+    restart: always
+    depends_on:
+      - postgres
+    ports:
+      - ${DB_ADMINER_PORT}:8080
+

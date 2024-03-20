@@ -1,0 +1,24 @@
+version: '3.9'
+
+services:
+  redis:
+    image: redis:7-alpine
+    platform: linux/amd64
+    container_name: redis
+    command: "redis-server --port 6379"
+    ports:
+      - ${REDIS_PORT}:6379
+    volumes:
+      - ~/.motor-on-premise-data/redis:/data
+    restart: always
+
+  redis-insight:
+    image: redis/redisinsight:latest
+    platform: linux/amd64
+    container_name: redis-insight
+    volumes:
+      - ~/.motor-on-premise-data/redis-insight:/db
+    restart: always
+    ports:
+      - ${REDIS_INSIGHT_PORT}:5540
+
